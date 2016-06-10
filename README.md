@@ -2,7 +2,11 @@
 
 Start the compiler in a haskell enviroment by executing
 
+```
 $ ghci Compiler.hs
+```
+
+## Useful functions
 
 ```
 doTaal x
