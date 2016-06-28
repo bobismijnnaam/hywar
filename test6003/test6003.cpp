@@ -17,13 +17,13 @@ int mod(int a, int b) {
 
 
 int isEven(int);
-int lf_Cej8auY3yMX(int);
+int lfELSsYuHbNCO(int);
 
 __constant int ps[{!ps_length}]  = {!ps_contents};
 int isEven(int v1) {
-    return lf_Cej8auY3yMX(v1);
+    return lfELSsYuHbNCO(v1);
 };
-int lf_Cej8auY3yMX(int x) {
+int lfELSsYuHbNCO(int x) {
     return (mod((x), (2))) == (0);
 }
 kernel void GPUMonad(__global int *out, __global int *count) {

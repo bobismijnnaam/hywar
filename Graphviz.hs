@@ -107,6 +107,8 @@ toGraphviz c (Let exprs body) = (text, myId)
             ]
 toGraphviz c (Lambda arg body) = doubleExpr c "Lambda" arg body
 
+toGraphviz c (TpDef varName varType) = doubleExpr c "TpDef" varName varType
+
 toGraphviz c (FuncCall funcName args) = (text, myId)
     where
         allExprs = exprsToGraphviz c args 

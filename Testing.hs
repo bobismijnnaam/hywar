@@ -132,7 +132,7 @@ in
 
         5002 -> [r|
 let
-    xs :: [Int]
+    xs :: [Int],
     ys :: [Int]
 in
     fold (+) xs ys
@@ -161,7 +161,7 @@ in
 
         6003 -> [r|
 let
-    ps = [Int],
+    ps :: [Int],
     isEven = \x -> (mod x 2) == 0
 in
     filter isEven ps
@@ -169,7 +169,7 @@ in
 
         6004 -> [r|
 let
-    xs = [Int],
+    xs :: [Int],
     myMax = \x y -> if x > y then x else y
 in
     reduce myMax xs
@@ -177,8 +177,8 @@ in
                     
         6005 -> [r|
 let
-    xs = [Int],
-    add = Int,
+    xs :: [Int],
+    add :: Int,
     sum = \x -> x + add + 5
 in
     map sum xs
@@ -187,7 +187,7 @@ in
 -- plow is a reduce-like name for scan?
         6006 -> [r|
 let
-    xs = [Int],
+    xs :: [Int],
     a = 5
 in
     plow (\x z -> x + z) xs
@@ -195,8 +195,8 @@ in
 
         6007 -> [r|
 let
-    xs = [Int],
-    ys = [Int],
+    xs :: [Int],
+    ys :: [Int],
     myMin = \x y -> if x > y then y else x
 in
     zipWith myMin xs ys

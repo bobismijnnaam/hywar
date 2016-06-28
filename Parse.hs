@@ -122,7 +122,7 @@ gramm nt = case nt of
 
                            ,[ lParenSymb, P_Expr, rParenSymb                                            ]]      -- Bracketed expressions
 
-        P_Def           -> [[ P_Pattern, eq, P_Expr                                                     ]]
+        -- P_Def           -> [[ P_Pattern, eq, P_Expr                                                     ]]
 
         P_Pattern       -> [[ idf                                                                       ]
                            ,[ num                                                                       ]
@@ -130,6 +130,8 @@ gramm nt = case nt of
                            ,[ lParenToken, P_Pattern, comma, P_Pattern, comma, P_Pattern, rParenToken   ]
                            ,[ lSqBracket, rSqBracket                                                    ]
                            ,[ lSqBracket, P_Pattern, (*:)[comma, P_Pattern], rSqBracket                 ]]
+        P_Def           -> [[ P_Pattern, eq, P_Expr                                                     ]
+                           ,[ P_Pattern, tpColon, P_Expr                                                ]]
 
 
 lParenSymb      = Symbol "("
@@ -152,6 +154,8 @@ idf             = SyntCat P_Idf
 num             = SyntCat P_Num
 bln             = SyntCat P_Bln
 op              = SyntCat P_Op
+
+tpColon         = TermSymb "::"
 
 cmpOp           = CheckToken (\(nt,s) -> nt==P_Op && s ∈ [".",";",";>","<;",";>>","<<;","<<<",">>>","<.",".>"])
 blnOp           = CheckToken (\(nt,s) -> nt==P_Op && s ∈ ["&&","||"])
@@ -384,10 +388,15 @@ pt2expr (PNode nt subtrees) = case nt of
                 (PLeaf (P_Abstr,"\\") : pattern : es)                           -> Lambda (pt2expr pattern) (pt2expr $ prefixLam es)
 
                 [PLeaf (ResWord,"let") , PLeaf (ResWord,"in") , body]           -> Let [] $ pt2expr body
-                (PLeaf (ResWord,"let") : PNode P_Def def : es)                  -> Let (Def (pt2expr pattern) (pt2expr e) : defs) e'
-                                                                                where
-                                                                                  [pattern, PLeaf (P_Op,"="), e] = def
-                                                                                  Let defs e' =  pt2expr $ prefixLet es
+                -- (PLeaf (ResWord,"let") : PNode P_Def def : es)                  -> Let (Def (pt2expr pattern) (pt2expr e) : defs) e'
+                                                                                -- where
+                                                                                  -- [pattern, PLeaf (P_Op,"="), e] = def
+                                                                                  -- Let defs e' =  pt2expr $ prefixLet es
+                (PLeaf (ResWord,"let") : PNode P_Def def : es)                  -> case def of
+                            [pattern, PLeaf (P_Op,"=" ), e] -> Let (Def   (pt2expr pattern) (pt2expr e) : defs) e'
+                            [pattern, PLeaf (P_Op,"::"), e] -> Let (TpDef (pt2expr pattern) (pt2expr e) : defs) e'
+                            where
+                                Let defs e' =  pt2expr $ prefixLet es
 
                 [PLeaf (ResWord,"if")  , e0,
                  PLeaf (ResWord,"then"), e1,

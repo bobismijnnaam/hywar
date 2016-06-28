@@ -109,6 +109,8 @@ data Expr  = Idf     String                     -- for variables
            | Def     Expr   Expr                -- Only pattern as defined expr
            | Let     [Expr] Expr                -- Only Def-expressions in list
            | Lambda  Expr   Expr                -- Only pattern as formal parameter
+
+           | TpDef Expr Expr
         
            -- Converted forms start here
            | FuncCall String [Expr]

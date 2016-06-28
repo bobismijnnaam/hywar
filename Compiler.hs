@@ -57,6 +57,8 @@ postVisitor f (Let exprs body) = Let (map f (map (postVisitor f) exprs)) (f (pos
 postVisitor f (Lambda p b) = Lambda (f (postVisitor f p)) (f (postVisitor f b))
 
 postVisitor f e = case e of
+    TpDef n v -> TpDef (f (postVisitor f n)) (f (postVisitor f v))
+
     FuncCall funcName args -> FuncCall funcName (map f (map (postVisitor f) args))
     FuncDef funcName args body -> FuncDef funcName args (f (postVisitor f body))
     Type varName typeName -> Type (f (postVisitor f varName)) (f (postVisitor f typeName))
@@ -184,10 +186,10 @@ doTyping' u@(Cons t@(Idf typename) Null)
     | isTypename typename = List t
     | otherwise = u
 doTyping' (Cons t@(List typeExpr) Null) = List t
-doTyping' (Def n@(Idf _) t@(List _)) = Type n t
-doTyping' r@(Def n@(Idf _) t@(Idf typename))
-    | isTypename typename = Type n t
-    | otherwise = r
+doTyping' (TpDef n@(Idf _) t@(List _)) = trace "Found a TpDef" (Type n t)
+doTyping' r@(TpDef n@(Idf _) t@(Idf typename)) = trace "Found a TpDef" (Type n t)
+    -- | isTypename typename = Type n t
+    -- | otherwise = r
 
 doTyping' t = t
 
