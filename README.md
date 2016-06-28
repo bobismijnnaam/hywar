@@ -32,3 +32,8 @@ Will compile all original test cases (6003-6007) and execute make. TestKernels.c
 showEx x
 ```
 Will show variable example programs in strings. The Hywar example programs are programs in the range 6003-6007 inclusive.
+
+## Credits
+Parsing framework written by Jan Kuper (all the files with the fancy formatting).
+The rest is written by Bob Rubbens (all the files without the fancy formatting).
+
