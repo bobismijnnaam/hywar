@@ -357,8 +357,12 @@ int main() {
     doTest();
 
     std::cout << "Hywar:\n";
+
+	int jobStep = 64;
+
     for (int i = 1; i < 11; ++i) {
-        int size = 64 + i * 12288;
+        // int size = 64 + i * 12288;
+		int size = 64 + i * jobStep;
         std::cout << "job size = " << std::to_string(size) << " time = " << benchmark(
                 test6003,
                 test6004,
@@ -371,7 +375,8 @@ int main() {
 
     std::cout << "Naive sequential:\n";
     for (int i = 1; i < 11; ++i) {
-        int size = 64 + i * 12288;
+        // int size = 64 + i * 12288;
+		int size = 64 + i * jobStep;
         std::cout << "job size = " << std::to_string(size) << " time = " << benchmark(
                 seq6003,
                 seq6004,
