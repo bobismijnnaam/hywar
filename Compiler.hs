@@ -181,8 +181,8 @@ doTyping' u@(Cons t@(Idf typename) Null)
     | isTypename typename = List t
     | otherwise = u
 doTyping' (Cons t@(List typeExpr) Null) = List t
-doTyping' (TpDef n@(Idf _) t@(List _)) = trace "Found a TpDef" (Type n t)
-doTyping' r@(TpDef n@(Idf _) t@(Idf typename)) = trace "Found a TpDef" (Type n t)
+doTyping' (TpDef n@(Idf _) t@(List _)) = Type n t
+doTyping' r@(TpDef n@(Idf _) t@(Idf typename)) = Type n t
 
 doTyping' t = t
 
